@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import FAPanels
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +19,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        GMSServices.provideAPIKey("AIzaSyAYiNNVx2EBB8EUJBMWO1g4LD-ndzZDExg")
+        GMSPlacesClient.provideAPIKey("AIzaSyAYiNNVx2EBB8EUJBMWO1g4LD-ndzZDExg")
+        
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//
+        let leftMenuVC: LeftMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "LeftMenuVC") as! LeftMenuVC
+//
+//        let rightMenuVC: RightMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "RightMenuVC") as! RightMenuVC
+//
+        let centerVC: CenterVC = mainStoryboard.instantiateViewController(withIdentifier: "CenterVC1") as! CenterVC
+        let centerNavVC = UINavigationController(rootViewController: centerVC)
+//
+//
+//
+//
+//        //  Set the Panel controllers with just two lines of code
+//
+        let rootController: FAPanelController = window?.rootViewController as! FAPanelController
+        rootController.center(centerNavVC).left(leftMenuVC)
         return true
     }
 

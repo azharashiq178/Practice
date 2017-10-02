@@ -213,16 +213,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZLr-cX-WTU" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="52" width="375" height="389"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="603"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TYj-98-lxb">
-                                <rect key="frame" x="0.0" y="441" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="zAu-yS-0bY"/>
+                                    <constraint firstAttribute="height" constant="44" id="zE5-mu-xmx"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="Gcd-oK-0q6"/>
                                     <barButtonItem title="Dire" id="HuO-gC-rXG">
                                         <connections>
                                             <action selector="draDirection:" destination="7GB-LI-mn9" id="4dx-1h-QpA"/>
@@ -232,20 +231,31 @@
                                     <barButtonItem title="Rate" id="T8F-6J-Sqr"/>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="J6l-0f-JTN"/>
                                     <barButtonItem title="Share" id="ZN3-Il-Utr"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="355-HE-ndE"/>
                                 </items>
                             </toolbar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zNU-lR-0JF">
+                                <rect key="frame" x="302" y="30" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="05g-dc-ZZ0"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="showLiveView:" destination="7GB-LI-mn9" eventType="touchUpInside" id="nt4-dM-c3R"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ZLr-cX-WTU" firstAttribute="trailing" secondItem="DXG-vW-Z6f" secondAttribute="trailing" id="3Xi-eX-BAa"/>
-                            <constraint firstItem="ZLr-cX-WTU" firstAttribute="centerY" secondItem="hUD-p3-tnv" secondAttribute="centerY" constant="-87" id="D1v-Oa-oCl"/>
-                            <constraint firstItem="ZLr-cX-WTU" firstAttribute="top" secondItem="hUD-p3-tnv" secondAttribute="top" constant="52" id="MC9-ZQ-xQj"/>
-                            <constraint firstItem="TYj-98-lxb" firstAttribute="leading" secondItem="DXG-vW-Z6f" secondAttribute="leading" id="PCd-8K-hki"/>
-                            <constraint firstItem="ZLr-cX-WTU" firstAttribute="leading" secondItem="DXG-vW-Z6f" secondAttribute="leading" id="TTB-5d-YEX"/>
-                            <constraint firstItem="TYj-98-lxb" firstAttribute="trailing" secondItem="DXG-vW-Z6f" secondAttribute="trailing" id="hUi-EW-QAS"/>
-                            <constraint firstItem="TYj-98-lxb" firstAttribute="top" secondItem="ZLr-cX-WTU" secondAttribute="bottom" id="o0b-Rk-URw"/>
-                            <constraint firstItem="ZLr-cX-WTU" firstAttribute="centerX" secondItem="hUD-p3-tnv" secondAttribute="centerX" id="oeC-cF-mmU"/>
+                            <constraint firstItem="ZLr-cX-WTU" firstAttribute="trailing" secondItem="DXG-vW-Z6f" secondAttribute="trailing" id="FlP-PN-ZfK"/>
+                            <constraint firstItem="TYj-98-lxb" firstAttribute="trailing" secondItem="DXG-vW-Z6f" secondAttribute="trailing" id="QL3-wp-U5B"/>
+                            <constraint firstItem="ZLr-cX-WTU" firstAttribute="top" secondItem="DXG-vW-Z6f" secondAttribute="top" id="Ss8-WS-Is9"/>
+                            <constraint firstItem="TYj-98-lxb" firstAttribute="leading" secondItem="DXG-vW-Z6f" secondAttribute="leading" id="eJ9-oi-KlC"/>
+                            <constraint firstItem="TYj-98-lxb" firstAttribute="top" secondItem="ZLr-cX-WTU" secondAttribute="bottom" id="lit-fu-oES"/>
+                            <constraint firstItem="DXG-vW-Z6f" firstAttribute="trailing" secondItem="zNU-lR-0JF" secondAttribute="trailing" constant="27" id="r7c-5j-J59"/>
+                            <constraint firstItem="zNU-lR-0JF" firstAttribute="top" secondItem="DXG-vW-Z6f" secondAttribute="top" constant="10" id="rnU-me-lyk"/>
+                            <constraint firstItem="TYj-98-lxb" firstAttribute="bottom" secondItem="DXG-vW-Z6f" secondAttribute="bottom" id="yEm-pt-MJ0"/>
+                            <constraint firstItem="TYj-98-lxb" firstAttribute="top" secondItem="ZLr-cX-WTU" secondAttribute="bottom" id="yyh-5g-nzE"/>
+                            <constraint firstItem="ZLr-cX-WTU" firstAttribute="leading" secondItem="DXG-vW-Z6f" secondAttribute="leading" id="ziz-xB-NI1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DXG-vW-Z6f"/>
                     </view>

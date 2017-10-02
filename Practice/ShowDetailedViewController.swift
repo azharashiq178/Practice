@@ -121,4 +121,6 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
+    @IBAction func showLiveView(_ sender: Any) {
+    }
 }

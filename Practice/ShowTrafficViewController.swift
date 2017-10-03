@@ -10,17 +10,22 @@ import UIKit
 import Alamofire
 import CoreData
 
-class ShowTrafficViewController: UIViewController,GMSMapViewDelegate {
+class ShowTrafficViewController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelegate {
     @IBOutlet weak var myMap: GMSMapView!
     let locationManager = CLLocationManager()
-    var location: [NSManagedObject] = []
+//    var location: [NSManagedObject] = []
     
+    @IBOutlet weak var myImage: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.delegate = self as? CLLocationManagerDelegate
+        locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
         locationManager.startUpdatingLocation()
+        locationManager.startUpdatingHeading()
+        self.myMap.isMyLocationEnabled = true
+        self.myMap.settings.myLocationButton = true
+        
         
         self.myMap.isMyLocationEnabled = true
         self.myMap.delegate = self
@@ -30,6 +35,14 @@ class ShowTrafficViewController: UIViewController,GMSMapViewDelegate {
         myMap.camera = camera
         
         // Do any additional setup after loading the view.
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        //        double rotation = newHeading.magneticHeading * 3.14159 / 180;
+        let rotation = newHeading.magneticHeading * 3.14159 / 180
+        //    NSLog(@"Rotation is %f",rotation);
+        
+        //        [self.compassImage setTransform:CGAffineTransformMakeRotation(-rotation)];
+        self.myImage.transform = .init(rotationAngle: CGFloat(-rotation))
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let _:CLLocationCoordinate2D = manager.location!.coordinate
@@ -97,7 +110,7 @@ class ShowTrafficViewController: UIViewController,GMSMapViewDelegate {
         let okAction = UIAlertAction(title: "Ok", style: .default) { (ab) in
             let appDelegate = UIApplication.shared.delegate as? AppDelegate
             let managedContext = appDelegate!.persistentContainer.viewContext
-            let entity = NSEntityDescription.entity(forEntityName: "Person", in: managedContext)!
+            let entity = NSEntityDescription.entity(forEntityName: "Favourite", in: managedContext)!
             let tmpLocation = NSManagedObject(entity: entity,insertInto: managedContext)
             tmpLocation.setValue(nameOfCoordinate, forKey: "nameOfLocation")
             tmpLocation.setValue(String(format: "%f", coordinate.latitude), forKey: "latOfLocation")

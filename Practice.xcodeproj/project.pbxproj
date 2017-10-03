@@ -20,6 +20,9 @@
 		7E75EADC1F821166009C3749 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EADB1F821166009C3749 /* AnnotationView.swift */; };
 		7E75EADE1F8218A4009C3749 /* FetchedData1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EADD1F8218A4009C3749 /* FetchedData1.swift */; };
 		7E75EAE01F821F3A009C3749 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EADF1F821F39009C3749 /* Place.swift */; };
+		7E8BA1D91F83AB9A0074FBE2 /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7E8BA1D81F83AB9A0074FBE2 /* GoogleMaps.bundle */; };
+		7E8BA1DB1F83AF470074FBE2 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8BA1DA1F83AF470074FBE2 /* FavouritesViewController.swift */; };
+		7E8BA1DD1F83B1750074FBE2 /* ShowFavouriteMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8BA1DC1F83B1750074FBE2 /* ShowFavouriteMapViewController.swift */; };
 		7E984A741F7A56C400B8B6C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E984A731F7A56C400B8B6C1 /* AppDelegate.swift */; };
 		7E984A761F7A56C400B8B6C1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E984A751F7A56C400B8B6C1 /* ViewController.swift */; };
 		7E984A791F7A56C400B8B6C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E984A771F7A56C400B8B6C1 /* Main.storyboard */; };
@@ -82,6 +85,10 @@
 		7E75EADB1F821166009C3749 /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
 		7E75EADD1F8218A4009C3749 /* FetchedData1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedData1.swift; sourceTree = "<group>"; };
 		7E75EADF1F821F39009C3749 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		7E8BA1D61F83AB300074FBE2 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMaps.framework; path = Pods/GoogleMaps/Maps/Frameworks/GoogleMaps.framework; sourceTree = "<group>"; };
+		7E8BA1D81F83AB9A0074FBE2 /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleMaps.bundle; sourceTree = "<group>"; };
+		7E8BA1DA1F83AF470074FBE2 /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
+		7E8BA1DC1F83B1750074FBE2 /* ShowFavouriteMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFavouriteMapViewController.swift; sourceTree = "<group>"; };
 		7E984A701F7A56C400B8B6C1 /* Practice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Practice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E984A731F7A56C400B8B6C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E984A751F7A56C400B8B6C1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -146,6 +153,8 @@
 		7E984A671F7A56C400B8B6C1 = {
 			isa = PBXGroup;
 			children = (
+				7E8BA1D81F83AB9A0074FBE2 /* GoogleMaps.bundle */,
+				7E8BA1D61F83AB300074FBE2 /* GoogleMaps.framework */,
 				7E984A721F7A56C400B8B6C1 /* Practice */,
 				7E984A8A1F7A56C400B8B6C1 /* PracticeTests */,
 				7E984A951F7A56C400B8B6C1 /* PracticeUITests */,
@@ -194,6 +203,7 @@
 				7EE44A8C1F825F7C00973F9A /* ShowMapsViewController.swift */,
 				7E5D6C0C1F83528800ACDADB /* TabBarController.swift */,
 				7E5D6C0E1F83569D00ACDADB /* ShowTrafficViewController.swift */,
+				7E8BA1DA1F83AF470074FBE2 /* FavouritesViewController.swift */,
 				7E75EAD91F820E86009C3749 /* DebugMapViewController.xib */,
 				7E75EAD71F820E84009C3749 /* hdar_close.png */,
 				7E75EADA1F820E87009C3749 /* hdar_close@2x.png */,
@@ -202,6 +212,7 @@
 				7E984A7F1F7A56C400B8B6C1 /* LaunchScreen.storyboard */,
 				7E984A821F7A56C400B8B6C1 /* Info.plist */,
 				7E984A7A1F7A56C400B8B6C1 /* Practice.xcdatamodeld */,
+				7E8BA1DC1F83B1750074FBE2 /* ShowFavouriteMapViewController.swift */,
 			);
 			path = Practice;
 			sourceTree = "<group>";
@@ -365,6 +376,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E8BA1D91F83AB9A0074FBE2 /* GoogleMaps.bundle in Resources */,
 				7E984A811F7A56C400B8B6C1 /* LaunchScreen.storyboard in Resources */,
 				7E984A7E1F7A56C400B8B6C1 /* Assets.xcassets in Resources */,
 				7E984A791F7A56C400B8B6C1 /* Main.storyboard in Resources */,
@@ -555,6 +567,7 @@
 				7EDA4ED11F7A8AB60006F316 /* ShowPlacesVC.swift in Sources */,
 				7E75EAD01F820E6D009C3749 /* ARAnnotation.swift in Sources */,
 				7E75EAD31F820E6D009C3749 /* ARConfiguration.swift in Sources */,
+				7E8BA1DB1F83AF470074FBE2 /* FavouritesViewController.swift in Sources */,
 				7EE96DBE1F7BA871005766E3 /* CategoryData.swift in Sources */,
 				7E75EAD21F820E6D009C3749 /* ARViewController.swift in Sources */,
 				7EF640B41F7CF59D003214A9 /* ShowDetailedViewController.swift in Sources */,
@@ -568,6 +581,7 @@
 				7EE96DC21F7BDC01005766E3 /* FetchedData.swift in Sources */,
 				7E75EADE1F8218A4009C3749 /* FetchedData1.swift in Sources */,
 				7EE96DC01F7BD59D005766E3 /* ShowFetchedDataTableViewCell.swift in Sources */,
+				7E8BA1DD1F83B1750074FBE2 /* ShowFavouriteMapViewController.swift in Sources */,
 				7E984AA71F7A5AF600B8B6C1 /* LeftMenuVC.swift in Sources */,
 				7E75EAD61F820E7A009C3749 /* DebugMapViewController.swift in Sources */,
 				7EE44A8D1F825F7C00973F9A /* ShowMapsViewController.swift in Sources */,

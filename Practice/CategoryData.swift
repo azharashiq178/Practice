@@ -11,6 +11,7 @@ import UIKit
 class CategoryData: NSObject {
     var nameOfCategory : String = ""
     var searchNameOfCategory : String = ""
+    var imageName : String = ""
     
     
 }

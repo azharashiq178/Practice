@@ -16,6 +16,7 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate {
     var fetchedData : FetchedData = FetchedData()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         locationManager.delegate = self as? CLLocationManagerDelegate
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
@@ -76,6 +77,7 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate {
                     polyline.strokeWidth = 5
                     polyline.strokeColor = UIColor.red
                     polyline.map = self.myMap
+                    
                 }
 //                var fetchedPolylines : Array<String> = []
 //                var path = GMSPath()
@@ -121,6 +123,23 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate {
         let locValue:CLLocationCoordinate2D = manager.location!.coordinate
         print("locations = \(locValue.latitude) \(locValue.longitude)")
     }
-    @IBAction func showLiveView(_ sender: Any) {
+    @IBAction func didSelectSegment(_ sender: UISegmentedControl) {
+        switch (sender.selectedSegmentIndex) {
+        case 0:
+            self.myMap.mapType = .normal
+            break
+        case 1:
+            self.myMap.mapType = .satellite
+            break
+        case 3:
+            self.myMap.mapType = .hybrid
+            break
+        case 4:
+            self.myMap.mapType = .terrain
+            break
+        default:
+            self.myMap.mapType = .normal
+        }
     }
+    
 }

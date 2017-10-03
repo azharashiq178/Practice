@@ -9,6 +9,17 @@
 /* Begin PBXBuildFile section */
 		5970DBAE5588E7786D7D4D6B /* Pods_PracticeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02670188C3EB808A64671347 /* Pods_PracticeTests.framework */; };
 		7E5880191F7A6796005302B3 /* CategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5880181F7A6796005302B3 /* CategoryCollectionViewCell.swift */; };
+		7E5D6C0D1F83528800ACDADB /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5D6C0C1F83528800ACDADB /* TabBarController.swift */; };
+		7E5D6C0F1F83569D00ACDADB /* ShowTrafficViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E5D6C0E1F83569D00ACDADB /* ShowTrafficViewController.swift */; };
+		7E75EAD01F820E6D009C3749 /* ARAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EACB1F820E69009C3749 /* ARAnnotation.swift */; };
+		7E75EAD11F820E6D009C3749 /* ARTrackingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EACC1F820E69009C3749 /* ARTrackingManager.swift */; };
+		7E75EAD21F820E6D009C3749 /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EACD1F820E6B009C3749 /* ARViewController.swift */; };
+		7E75EAD31F820E6D009C3749 /* ARConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EACE1F820E6C009C3749 /* ARConfiguration.swift */; };
+		7E75EAD41F820E6D009C3749 /* ARAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EACF1F820E6D009C3749 /* ARAnnotationView.swift */; };
+		7E75EAD61F820E7A009C3749 /* DebugMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EAD51F820E79009C3749 /* DebugMapViewController.swift */; };
+		7E75EADC1F821166009C3749 /* AnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EADB1F821166009C3749 /* AnnotationView.swift */; };
+		7E75EADE1F8218A4009C3749 /* FetchedData1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EADD1F8218A4009C3749 /* FetchedData1.swift */; };
+		7E75EAE01F821F3A009C3749 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E75EADF1F821F39009C3749 /* Place.swift */; };
 		7E984A741F7A56C400B8B6C1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E984A731F7A56C400B8B6C1 /* AppDelegate.swift */; };
 		7E984A761F7A56C400B8B6C1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E984A751F7A56C400B8B6C1 /* ViewController.swift */; };
 		7E984A791F7A56C400B8B6C1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E984A771F7A56C400B8B6C1 /* Main.storyboard */; };
@@ -22,6 +33,7 @@
 		7E984AA91F7A5B1A00B8B6C1 /* RightMenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E984AA81F7A5B1A00B8B6C1 /* RightMenuVC.swift */; };
 		7E984AAB1F7A5B3600B8B6C1 /* CenterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E984AAA1F7A5B3600B8B6C1 /* CenterVC.swift */; };
 		7EDA4ED11F7A8AB60006F316 /* ShowPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EDA4ED01F7A8AB60006F316 /* ShowPlacesVC.swift */; };
+		7EE44A8D1F825F7C00973F9A /* ShowMapsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE44A8C1F825F7C00973F9A /* ShowMapsViewController.swift */; };
 		7EE96DBE1F7BA871005766E3 /* CategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE96DBD1F7BA871005766E3 /* CategoryData.swift */; };
 		7EE96DC01F7BD59D005766E3 /* ShowFetchedDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE96DBF1F7BD59D005766E3 /* ShowFetchedDataTableViewCell.swift */; };
 		7EE96DC21F7BDC01005766E3 /* FetchedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EE96DC11F7BDC01005766E3 /* FetchedData.swift */; };
@@ -55,6 +67,21 @@
 		6311EA2281B8216F5DB70354 /* Pods-PracticeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PracticeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PracticeTests/Pods-PracticeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		72882561100CC56E0C4EA39D /* Pods-PracticeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PracticeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PracticeUITests/Pods-PracticeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		7E5880181F7A6796005302B3 /* CategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		7E5D6C0C1F83528800ACDADB /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		7E5D6C0E1F83569D00ACDADB /* ShowTrafficViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowTrafficViewController.swift; sourceTree = "<group>"; };
+		7E75EACB1F820E69009C3749 /* ARAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAnnotation.swift; sourceTree = "<group>"; };
+		7E75EACC1F820E69009C3749 /* ARTrackingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARTrackingManager.swift; sourceTree = "<group>"; };
+		7E75EACD1F820E6B009C3749 /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
+		7E75EACE1F820E6C009C3749 /* ARConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARConfiguration.swift; sourceTree = "<group>"; };
+		7E75EACF1F820E6D009C3749 /* ARAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAnnotationView.swift; sourceTree = "<group>"; };
+		7E75EAD51F820E79009C3749 /* DebugMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugMapViewController.swift; sourceTree = "<group>"; };
+		7E75EAD71F820E84009C3749 /* hdar_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hdar_close.png; sourceTree = "<group>"; };
+		7E75EAD81F820E85009C3749 /* hdar_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hdar_close@3x.png"; sourceTree = "<group>"; };
+		7E75EAD91F820E86009C3749 /* DebugMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DebugMapViewController.xib; sourceTree = "<group>"; };
+		7E75EADA1F820E87009C3749 /* hdar_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hdar_close@2x.png"; sourceTree = "<group>"; };
+		7E75EADB1F821166009C3749 /* AnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationView.swift; sourceTree = "<group>"; };
+		7E75EADD1F8218A4009C3749 /* FetchedData1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchedData1.swift; sourceTree = "<group>"; };
+		7E75EADF1F821F39009C3749 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		7E984A701F7A56C400B8B6C1 /* Practice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Practice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E984A731F7A56C400B8B6C1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7E984A751F7A56C400B8B6C1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +101,7 @@
 		7E984AA81F7A5B1A00B8B6C1 /* RightMenuVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightMenuVC.swift; sourceTree = "<group>"; };
 		7E984AAA1F7A5B3600B8B6C1 /* CenterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterVC.swift; sourceTree = "<group>"; };
 		7EDA4ED01F7A8AB60006F316 /* ShowPlacesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowPlacesVC.swift; sourceTree = "<group>"; };
+		7EE44A8C1F825F7C00973F9A /* ShowMapsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMapsViewController.swift; sourceTree = "<group>"; };
 		7EE96DBA1F7B6DAC005766E3 /* Practice-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Practice-Bridging-Header.h"; sourceTree = "<group>"; };
 		7EE96DBD1F7BA871005766E3 /* CategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryData.swift; sourceTree = "<group>"; };
 		7EE96DBF1F7BD59D005766E3 /* ShowFetchedDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFetchedDataTableViewCell.swift; sourceTree = "<group>"; };
@@ -152,8 +180,24 @@
 				7E5880181F7A6796005302B3 /* CategoryCollectionViewCell.swift */,
 				7EE96DBD1F7BA871005766E3 /* CategoryData.swift */,
 				7EE96DC11F7BDC01005766E3 /* FetchedData.swift */,
+				7E75EADD1F8218A4009C3749 /* FetchedData1.swift */,
+				7E75EADF1F821F39009C3749 /* Place.swift */,
 				7EF59B0C1F7BE5F700D61FC8 /* RatingControl.swift */,
 				7E984A771F7A56C400B8B6C1 /* Main.storyboard */,
+				7E75EACB1F820E69009C3749 /* ARAnnotation.swift */,
+				7E75EACF1F820E6D009C3749 /* ARAnnotationView.swift */,
+				7E75EACE1F820E6C009C3749 /* ARConfiguration.swift */,
+				7E75EACC1F820E69009C3749 /* ARTrackingManager.swift */,
+				7E75EACD1F820E6B009C3749 /* ARViewController.swift */,
+				7E75EAD51F820E79009C3749 /* DebugMapViewController.swift */,
+				7E75EADB1F821166009C3749 /* AnnotationView.swift */,
+				7EE44A8C1F825F7C00973F9A /* ShowMapsViewController.swift */,
+				7E5D6C0C1F83528800ACDADB /* TabBarController.swift */,
+				7E5D6C0E1F83569D00ACDADB /* ShowTrafficViewController.swift */,
+				7E75EAD91F820E86009C3749 /* DebugMapViewController.xib */,
+				7E75EAD71F820E84009C3749 /* hdar_close.png */,
+				7E75EADA1F820E87009C3749 /* hdar_close@2x.png */,
+				7E75EAD81F820E85009C3749 /* hdar_close@3x.png */,
 				7E984A7D1F7A56C400B8B6C1 /* Assets.xcassets */,
 				7E984A7F1F7A56C400B8B6C1 /* LaunchScreen.storyboard */,
 				7E984A821F7A56C400B8B6C1 /* Info.plist */,
@@ -507,17 +551,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E5D6C0F1F83569D00ACDADB /* ShowTrafficViewController.swift in Sources */,
 				7EDA4ED11F7A8AB60006F316 /* ShowPlacesVC.swift in Sources */,
+				7E75EAD01F820E6D009C3749 /* ARAnnotation.swift in Sources */,
+				7E75EAD31F820E6D009C3749 /* ARConfiguration.swift in Sources */,
 				7EE96DBE1F7BA871005766E3 /* CategoryData.swift in Sources */,
+				7E75EAD21F820E6D009C3749 /* ARViewController.swift in Sources */,
 				7EF640B41F7CF59D003214A9 /* ShowDetailedViewController.swift in Sources */,
 				7E5880191F7A6796005302B3 /* CategoryCollectionViewCell.swift in Sources */,
 				7E984AA91F7A5B1A00B8B6C1 /* RightMenuVC.swift in Sources */,
+				7E75EAD11F820E6D009C3749 /* ARTrackingManager.swift in Sources */,
+				7E5D6C0D1F83528800ACDADB /* TabBarController.swift in Sources */,
+				7E75EAE01F821F3A009C3749 /* Place.swift in Sources */,
 				7EF59B0D1F7BE5F700D61FC8 /* RatingControl.swift in Sources */,
+				7E75EAD41F820E6D009C3749 /* ARAnnotationView.swift in Sources */,
 				7EE96DC21F7BDC01005766E3 /* FetchedData.swift in Sources */,
+				7E75EADE1F8218A4009C3749 /* FetchedData1.swift in Sources */,
 				7EE96DC01F7BD59D005766E3 /* ShowFetchedDataTableViewCell.swift in Sources */,
 				7E984AA71F7A5AF600B8B6C1 /* LeftMenuVC.swift in Sources */,
+				7E75EAD61F820E7A009C3749 /* DebugMapViewController.swift in Sources */,
+				7EE44A8D1F825F7C00973F9A /* ShowMapsViewController.swift in Sources */,
 				7E984A761F7A56C400B8B6C1 /* ViewController.swift in Sources */,
 				7E984AAB1F7A5B3600B8B6C1 /* CenterVC.swift in Sources */,
+				7E75EADC1F821166009C3749 /* AnnotationView.swift in Sources */,
 				7E984A741F7A56C400B8B6C1 /* AppDelegate.swift in Sources */,
 				7E984A7C1F7A56C400B8B6C1 /* Practice.xcdatamodeld in Sources */,
 			);

@@ -24,12 +24,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
 //
-        let leftMenuVC: LeftMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "LeftMenuVC") as! LeftMenuVC
+//        let leftMenuVC: LeftMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "LeftMenuVC") as! LeftMenuVC
 //
 //        let rightMenuVC: RightMenuVC = mainStoryboard.instantiateViewController(withIdentifier: "RightMenuVC") as! RightMenuVC
 //
-        let centerVC: CenterVC = mainStoryboard.instantiateViewController(withIdentifier: "CenterVC1") as! CenterVC
+//        let centerVC: CenterVC = mainStoryboard.instantiateViewController(withIdentifier: "CenterVC1") as! CenterVC
+        let centerVC: TabBarController = mainStoryboard.instantiateViewController(withIdentifier: "ce") as! TabBarController
         let centerNavVC = UINavigationController(rootViewController: centerVC)
+//        centerNavVC.title = "AroundMe"
 //
 //
 //
@@ -37,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        //  Set the Panel controllers with just two lines of code
 //
         let rootController: FAPanelController = window?.rootViewController as! FAPanelController
-        rootController.center(centerNavVC).left(leftMenuVC)
+        rootController.center(centerNavVC)
         return true
     }
 

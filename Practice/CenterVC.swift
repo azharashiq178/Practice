@@ -18,38 +18,39 @@ class CenterVC: UIViewController,UICollectionViewDelegate,UICollectionViewDataSo
         super.viewDidLoad()
 //        self.categories = ["Banks/ATM","Bars","Cinema","Coffee Bar","Airport","Clothing Store","Hospitals","Hostels","Doctor","Parking","Mosque","Pharmacies","gas_station","Resturants","grocery_or_supermarket","bus_station","movie_theater"]
         ///
-        self.appendInMyCategory(name: "Banks/ATM", searchName: "bank")
-        self.appendInMyCategory(name: "Bars", searchName: "bar")
-        self.appendInMyCategory(name: "Cinema", searchName: "movie_theater")
-        self.appendInMyCategory(name: "Coffee Bar", searchName: "cafe")
-        self.appendInMyCategory(name: "Airport", searchName: "airport")
-        self.appendInMyCategory(name: "Clothing", searchName: "clothing_store")
-        self.appendInMyCategory(name: "Store", searchName: "store")
-        self.appendInMyCategory(name: "Hospitals", searchName: "hospital")
-        self.appendInMyCategory(name: "Doctor", searchName: "doctor")
-        self.appendInMyCategory(name: "Parking", searchName: "parking")
-        self.appendInMyCategory(name: "Mosque", searchName: "mosque")
-        self.appendInMyCategory(name: "Pharmacies", searchName: "pharmacy")
-        self.appendInMyCategory(name: "Petrol Station", searchName: "gas_station")
-        self.appendInMyCategory(name: "Restaurant", searchName: "restaurant")
-        self.appendInMyCategory(name: "Grocery", searchName: "grocery_or_supermarket")
-        self.appendInMyCategory(name: "Bus Stop", searchName: "bus_station")
+        self.appendInMyCategory(name: "Banks/ATM", searchName: "bank", imageName: "bank")
+        self.appendInMyCategory(name: "Bars", searchName: "bar", imageName: "bar")
+        self.appendInMyCategory(name: "Cinema", searchName: "movie_theater", imageName: "cinema")
+        self.appendInMyCategory(name: "Coffee Bar", searchName: "cafe", imageName: "cafe")
+        self.appendInMyCategory(name: "Airport", searchName: "airport", imageName: "airport")
+        self.appendInMyCategory(name: "Clothing", searchName: "clothing_store", imageName: "coth_store")
+        self.appendInMyCategory(name: "Store", searchName: "store", imageName: "store")
+        self.appendInMyCategory(name: "Hospitals", searchName: "hospital", imageName: "hospital")
+        self.appendInMyCategory(name: "Doctor", searchName: "doctor", imageName: "doctor")
+        self.appendInMyCategory(name: "Parking", searchName: "parking", imageName: "parking")
+        self.appendInMyCategory(name: "Mosque", searchName: "mosque", imageName: "mosque")
+        self.appendInMyCategory(name: "Pharmacies", searchName: "pharmacy", imageName: "pharmacy")
+        self.appendInMyCategory(name: "Petrol Station", searchName: "gas_station", imageName: "gas_station")
+        self.appendInMyCategory(name: "Restaurant", searchName: "restaurant", imageName: "resturant")
+        self.appendInMyCategory(name: "Grocery", searchName: "grocery_or_supermarket", imageName: "grocery")
+        self.appendInMyCategory(name: "Bus Stop", searchName: "bus_station", imageName: "bus_station")
         ////
         
 //        let myButton = UIBarButtonItem(title: "A", style: .plain, target: self, action: #selector(openPanel))
-        let myButton = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self, action: #selector(openPanel))
-        myButton.tintColor = UIColor.black
-        self.title = "AroundMe"
-        
-        self.navigationItem.leftBarButtonItem = myButton
+//        let myButton = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self, action: #selector(openPanel))
+//        myButton.tintColor = UIColor.black
+////        self.title = "AroundMe"
+//
+//        self.navigationItem.leftBarButtonItem = myButton
         
         self.categoryCollectionView.reloadData()
         // Do any additional setup after loading the view.
     }
-    func appendInMyCategory(name : String, searchName : String) {
+    func appendInMyCategory(name : String, searchName : String, imageName: String) {
         let tmpCategory = CategoryData()
         tmpCategory.nameOfCategory = name
         tmpCategory.searchNameOfCategory = searchName
+        tmpCategory.imageName = imageName
         self.myCategories.append(tmpCategory)
     }
     override func didReceiveMemoryWarning() {
@@ -67,6 +68,23 @@ class CenterVC: UIViewController,UICollectionViewDelegate,UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CategoryCollectionViewCell
         cell.myText.text = self.myCategories[indexPath.row].nameOfCategory
+        cell.categoryImage.image = UIImage(named: self.myCategories[indexPath.row].imageName)
+        if indexPath.row % 2 == 0{
+            cell.myView.backgroundColor = UIColor(red:0.95, green:0.43, blue:0.49, alpha:1.0)
+        }
+        else{
+            cell.myView.backgroundColor = UIColor(red:0.52, green:0.38, blue:0.66, alpha:1.0)
+        }
+        if indexPath.row % 3 == 0{
+            cell.myView.backgroundColor = UIColor(red:0.20, green:0.84, blue:0.51, alpha:1.0)
+        }
+        if indexPath.row % 4 == 0{
+            cell.myView.backgroundColor = UIColor(red:0.00, green:0.75, blue:0.95, alpha:1.0)
+        }
+        if indexPath.row % 5 == 0{
+            cell.myView.backgroundColor = UIColor(red:0.93, green:0.67, blue:0.28, alpha:1.0)
+        }
+        
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

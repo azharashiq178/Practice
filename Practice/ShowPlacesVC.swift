@@ -10,19 +10,51 @@ import UIKit
 import GooglePlaces
 import GooglePlacePicker
 import Alamofire
+import ARKit
 
 
+
+extension ShowPlacesVC: ARDataSource {
+    func ar(_ arViewController: ARViewController, viewForAnnotation: ARAnnotation) -> ARAnnotationView {
+        let annotationView = AnnotationView()
+        annotationView.annotation = viewForAnnotation
+        annotationView.delegate = self
+        annotationView.frame = CGRect(x: 0, y: 0, width: 150, height: 50)
+//        annotationView.backgroundColor = UIColor.blue
+        
+        return annotationView
+    }
+}
+extension ShowPlacesVC: AnnotationViewDelegate {
+    func didTouch(annotationView: AnnotationView) {
+        print("Tapped view for POI: \(annotationView.titleLabel?.text)")
+    }
+}
 
 
 class ShowPlacesVC: UIViewController,CLLocationManagerDelegate,UITableViewDelegate,UITableViewDataSource {
+    @IBOutlet weak var myToolbar: UIToolbar!
     @IBOutlet weak var fetchedTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var mySegmentedControl: UISegmentedControl!
     var fetchedNames : Array<FetchedData> = []
     var typeToSearch : String = ""
     let locationManager = CLLocationManager()
     var dataToPass : FetchedData = FetchedData()
+    fileprivate var arViewController: ARViewController!
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.mySegmentedControl.selectedSegmentIndex = 0
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.mySegmentedControl.addTarget(self, action: #selector(segmentControlAction(sender:)), for: .valueChanged)
+        let myButton = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self, action: #selector(showLiveView))
+        myButton.tintColor = UIColor.black
+        self.title = "AroundMe"
+        
+//        self.navigationItem.rightBarButtonItem = myButton
+        
 //        self.fetchedTableView.register(ShowFetchedDataTableViewCell.self, forCellReuseIdentifier: "cell")
         self.fetchedTableView.delegate = self
         self.fetchedTableView.dataSource = self
@@ -163,5 +195,40 @@ class ShowPlacesVC: UIViewController,CLLocationManagerDelegate,UITableViewDelega
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 67
+    }
+    @objc func showLiveView() {
+        arViewController = ARViewController()
+        //1
+        arViewController.dataSource = self as ARDataSource
+        //2
+        arViewController.maxVisibleAnnotations = 30
+        arViewController.headingSmoothingFactor = 0.05
+        //3
+        var places = [Place]()
+        for tmp in self.fetchedNames {
+            let location = tmp.location as! CLLocation
+            let name = tmp.nameOfFetchedData as! String
+            let address = tmp.locationOfFetchedData as! String
+            let place = Place(location: location, reference: "", name: name, address: address)
+            
+            places.append(place)
+        }
+        arViewController.setAnnotations(places)
+
+        self.present(arViewController, animated: true, completion: nil)
+    }
+    func showMapAction(){
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "mapView") as! ShowMapsViewController
+        vc.listToShow = self.fetchedNames
+        self.present(vc, animated: true, completion: nil)
+    }
+    @objc func segmentControlAction(sender:UISegmentedControl){
+        if(sender.selectedSegmentIndex == 0){}
+        if(sender.selectedSegmentIndex == 1){
+            self.showMapAction()
+        }
+        if(sender.selectedSegmentIndex == 2){
+            self.showLiveView()
+        }
     }
 }

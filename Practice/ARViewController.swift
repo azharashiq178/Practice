@@ -1076,21 +1076,22 @@ open class ARViewController: UIViewController, ARTrackingManagerDelegate
     {
         self.closeButton?.removeFromSuperview()
         
-        if self.closeButtonImage == nil
-        {
-            let bundle = Bundle(for: ARViewController.self)
-            let path = bundle.path(forResource: "hdar_close", ofType: "png")
-            if let path = path
-            {
-                self.closeButtonImage = UIImage(contentsOfFile: path)
-            }
-        }
+//        if self.closeButtonImage == nil
+//        {
+//            let bundle = Bundle(for: ARViewController.self)
+//            let path = bundle.path(forResource: "hdar_close", ofType: "png")
+//            if let path = path
+//            {
+//                self.closeButtonImage = UIImage(contentsOfFile: path)
+//            }
+//        }
         
         // Close button - make it customizable
         let closeButton: UIButton = UIButton(type: UIButtonType.custom)
-        closeButton.setImage(closeButtonImage, for: UIControlState());
+        closeButton.setImage(UIImage(named: "close"), for: UIControlState());
         closeButton.frame = CGRect(x: self.view.bounds.size.width - 45, y: 5,width: 40,height: 40)
         closeButton.backgroundColor = UIColor.white
+        closeButton.layer.cornerRadius = 20
         closeButton.addTarget(self, action: #selector(ARViewController.closeButtonTap), for: UIControlEvents.touchUpInside)
         closeButton.autoresizingMask = [UIViewAutoresizing.flexibleLeftMargin, UIViewAutoresizing.flexibleBottomMargin]
         self.view.addSubview(closeButton)

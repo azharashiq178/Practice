@@ -7,33 +7,81 @@
 //
 
 import UIKit
-
-class CenterVC: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+import GoogleMobileAds
+class CenterVC: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,GADBannerViewDelegate,GADInterstitialDelegate,UITabBarControllerDelegate {
     
     @IBOutlet weak var categoryCollectionView: UICollectionView!
-//    var categories : Array<String> = []
+    @IBOutlet weak var myBanner: GADBannerView!
+    @IBOutlet weak var myConstraint: NSLayoutConstraint!
+    var interstitial: GADInterstitial!
+    //    var categories : Array<String> = []
     var myCategories : Array<CategoryData> = []
     var myType : String = ""
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.navigationBar.topItem?.title = "AroundMe"
+        
+//        print(self.didMove(toParentViewController: self.navigationController) as Bool!)
+//        print(self.tabBarController?.selectedIndex as Int!)
+        
+//        if interstitial.isReady {
+//            interstitial.present(fromRootViewController: self)
+//        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        self.navigationController?.navigationBar.topItem?.title = "AroundMe"
+        self.myBanner.adUnitID = "ca-app-pub-6412217023250030/8468198649"
+        self.myBanner.rootViewController = self
+        let request = GADRequest()
+        self.myBanner.delegate = self
+//        request.testDevices = [kGADSimulatorID ];
+        
+        self.myBanner.load(request)
+        
+        interstitial = createAndLoadInterstitial()
+        
+        
 //        self.categories = ["Banks/ATM","Bars","Cinema","Coffee Bar","Airport","Clothing Store","Hospitals","Hostels","Doctor","Parking","Mosque","Pharmacies","gas_station","Resturants","grocery_or_supermarket","bus_station","movie_theater"]
         ///
         self.appendInMyCategory(name: "Banks/ATM", searchName: "bank", imageName: "bank")
-        self.appendInMyCategory(name: "Bars", searchName: "bar", imageName: "bar")
-        self.appendInMyCategory(name: "Cinema", searchName: "movie_theater", imageName: "cinema")
-        self.appendInMyCategory(name: "Coffee Bar", searchName: "cafe", imageName: "cafe")
-        self.appendInMyCategory(name: "Airport", searchName: "airport", imageName: "airport")
-        self.appendInMyCategory(name: "Clothing", searchName: "clothing_store", imageName: "coth_store")
-        self.appendInMyCategory(name: "Store", searchName: "store", imageName: "store")
         self.appendInMyCategory(name: "Hospitals", searchName: "hospital", imageName: "hospital")
-        self.appendInMyCategory(name: "Doctor", searchName: "doctor", imageName: "doctor")
-        self.appendInMyCategory(name: "Parking", searchName: "parking", imageName: "parking")
-        self.appendInMyCategory(name: "Mosque", searchName: "mosque", imageName: "mosque")
         self.appendInMyCategory(name: "Pharmacies", searchName: "pharmacy", imageName: "pharmacy")
+        self.appendInMyCategory(name: "Doctor", searchName: "doctor", imageName: "doctor")
         self.appendInMyCategory(name: "Petrol Station", searchName: "gas_station", imageName: "gas_station")
-        self.appendInMyCategory(name: "Restaurant", searchName: "restaurant", imageName: "resturant")
-        self.appendInMyCategory(name: "Grocery", searchName: "grocery_or_supermarket", imageName: "grocery")
+        self.appendInMyCategory(name: "Airport", searchName: "airport", imageName: "airport")
         self.appendInMyCategory(name: "Bus Stop", searchName: "bus_station", imageName: "bus_station")
+        self.appendInMyCategory(name: "Train Station", searchName: "train_station", imageName: "train_station")
+        self.appendInMyCategory(name: "Fire Station", searchName: "fire_station", imageName: "fire-station")
+        self.appendInMyCategory(name: "Park", searchName: "park", imageName: "park")
+        self.appendInMyCategory(name: "Parking", searchName: "parking", imageName: "parking")
+        self.appendInMyCategory(name: "Car Rental", searchName: "car_rental", imageName: "car_rental")
+        self.appendInMyCategory(name: "Car Wash", searchName: "car_wash", imageName: "car_wash")
+        self.appendInMyCategory(name: "Shopping Mall", searchName: "shopping_mall", imageName: "shopping_mall")
+        self.appendInMyCategory(name: "Clothing", searchName: "clothing_store", imageName: "clothing_store")
+        self.appendInMyCategory(name: "Store", searchName: "store", imageName: "store")
+        self.appendInMyCategory(name: "Grocery", searchName: "grocery_or_supermarket", imageName: "grocery")
+        self.appendInMyCategory(name: "Beauty Saloon", searchName: "beauty_salon", imageName: "beauty_salon")
+        self.appendInMyCategory(name: "Gym", searchName: "gym", imageName: "gym")
+        self.appendInMyCategory(name: "Cinema", searchName: "movie_theater", imageName: "movie_theater")
+        self.appendInMyCategory(name: "Restaurant", searchName: "restaurant", imageName: "resturant")
+        self.appendInMyCategory(name: "Coffee Bar", searchName: "cafe", imageName: "cafe")
+        self.appendInMyCategory(name: "Bars", searchName: "bar", imageName: "bar")
+        self.appendInMyCategory(name: "Bakery", searchName: "bakery", imageName: "bakery")
+        self.appendInMyCategory(name: "Mosque", searchName: "mosque", imageName: "mosque")
+        self.appendInMyCategory(name: "Church", searchName: "church", imageName: "church")
+        self.appendInMyCategory(name: "School", searchName: "school", imageName: "school")
+        self.appendInMyCategory(name: "Book Store", searchName: "book_store", imageName: "book_store")
+        self.appendInMyCategory(name: "Accounting", searchName: "accounting", imageName: "accounting")
+        self.appendInMyCategory(name: "Aquarium", searchName: "aquarium", imageName: "aquarium")
+        self.appendInMyCategory(name: "Art Gallery", searchName: "art_gallery", imageName: "art_gallery")
+        self.appendInMyCategory(name: "Laundry", searchName: "laundry", imageName: "laundry")
+        self.appendInMyCategory(name: "Casino", searchName: "casino", imageName: "casino")
+        self.appendInMyCategory(name: "Zoo", searchName: "zoo", imageName: "zoo")
+        
         ////
         
 //        let myButton = UIBarButtonItem(title: "A", style: .plain, target: self, action: #selector(openPanel))
@@ -117,5 +165,47 @@ class CenterVC: UIViewController,UICollectionViewDelegate,UICollectionViewDataSo
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
- 
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("adViewDidReceiveAd")
+        self.myConstraint.constant = 44
+        self.myBanner.layoutIfNeeded()
+    }
+    
+    /// Tells the delegate an ad request failed.
+    func adView(_ bannerView: GADBannerView,
+                didFailToReceiveAdWithError error: GADRequestError) {
+        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+    
+    /// Tells the delegate that a full screen view will be presented in response
+    /// to the user clicking on an ad.
+    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("adViewWillPresentScreen")
+    }
+    
+    /// Tells the delegate that the full screen view will be dismissed.
+    func adViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewWillDismissScreen")
+    }
+    
+    /// Tells the delegate that the full screen view has been dismissed.
+    func adViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewDidDismissScreen")
+    }
+    
+    /// Tells the delegate that a user click will open another app (such as
+    /// the App Store), backgrounding the current app.
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        print("adViewWillLeaveApplication")
+    }
+    func createAndLoadInterstitial() -> GADInterstitial {
+        var interstitial = GADInterstitial(adUnitID: "ca-app-pub-6412217023250030/7837465646")
+        interstitial.delegate = self
+        interstitial.load(GADRequest())
+        return interstitial
+    }
+    
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitial = createAndLoadInterstitial()
+    }
 }

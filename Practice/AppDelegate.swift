@@ -10,10 +10,11 @@ import UIKit
 import CoreData
 import FAPanels
 import GooglePlaces
+import GoogleMobileAds
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    let locationManager = CLLocationManager()
     var window: UIWindow?
 
 
@@ -21,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         GMSServices.provideAPIKey("AIzaSyAYiNNVx2EBB8EUJBMWO1g4LD-ndzZDExg")
         GMSPlacesClient.provideAPIKey("AIzaSyAYiNNVx2EBB8EUJBMWO1g4LD-ndzZDExg")
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-6412217023250030/8468198649")
+        locationManager.requestAlwaysAuthorization()
         
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
 //

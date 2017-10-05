@@ -2,17 +2,15 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "doctor1x.png",
+      "filename" : "doctor-2.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "doctor2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "doctor3x.png",
       "scale" : "3x"
     }
   ],

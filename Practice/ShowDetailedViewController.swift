@@ -9,16 +9,29 @@
 import UIKit
 import Alamofire
 import CoreData
+import GoogleMobileAds
 
-class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate,GMSMapViewDelegate {
+class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate,GMSMapViewDelegate,GADBannerViewDelegate {
 
     @IBOutlet weak var myMap: GMSMapView!
     @IBOutlet weak var myImage: UIImageView!
+    @IBOutlet weak var myBanner: GADBannerView!
+    @IBOutlet weak var myConstraint: NSLayoutConstraint!
     let locationManager = CLLocationManager()
     var fetchedData : FetchedData = FetchedData()
+    var typeOfSearch : String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.myBanner.adUnitID = "ca-app-pub-6412217023250030/8468198649"
+        self.myBanner.rootViewController = self
+        let request = GADRequest()
+        self.myBanner.delegate = self
+//        request.testDevices = [kGADSimulatorID ];
         
+        self.myBanner.load(request)
+       
+        
+        print("My type is ",self.typeOfSearch)
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
@@ -28,6 +41,7 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate,GMS
         self.myMap.isMyLocationEnabled = true
         self.myMap.delegate = self
         self.myMap.settings.myLocationButton = true
+        
         let targetLocation = self.fetchedData.location
         let camera: GMSCameraPosition = GMSCameraPosition.camera(withLatitude: targetLocation.coordinate.latitude, longitude: targetLocation.coordinate.longitude, zoom: 16.0)
         myMap.camera = camera
@@ -35,6 +49,7 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate,GMS
         marker.position = CLLocationCoordinate2D(latitude: targetLocation.coordinate.latitude, longitude: targetLocation.coordinate.longitude)
         marker.title = self.fetchedData.nameOfFetchedData
 //        marker.snippet = "Australia"
+        marker.icon = UIImage(named: "pin_\(self.typeOfSearch)")
         marker.map = myMap
         // Do any additional setup after loading the view.
     }
@@ -56,6 +71,17 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate,GMS
     */
 
     @IBAction func draDirection(_ sender: UIButton) {
+        self.myMap.clear()
+        let targetLocation = self.fetchedData.location
+        let camera: GMSCameraPosition = GMSCameraPosition.camera(withLatitude: targetLocation.coordinate.latitude, longitude: targetLocation.coordinate.longitude, zoom: 16.0)
+//        myMap.camera = camera
+        self.myMap.animate(to: camera)
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(latitude: targetLocation.coordinate.latitude, longitude: targetLocation.coordinate.longitude)
+        marker.title = self.fetchedData.nameOfFetchedData
+        //        marker.snippet = "Australia"
+        marker.icon = UIImage(named: "pin_\(self.typeOfSearch)")
+        marker.map = myMap
 //        let str = String(format: "%@?origin=%f,%f&destination=%f,%f&sensor=true&key=%@","https://maps.googleapis.com/maps/api/directions/json", locationManager.location!.coordinate.latitude,locationManager.location!.coordinate.longitude,self.fetchedData.location.coordinate.latitude,self.fetchedData.location.coordinate.longitude,"AIzaSyAYiNNVx2EBB8EUJBMWO1g4LD-ndzZDExg")
         
         Alamofire.request(String(format: "%@?origin=%f,%f&destination=%f,%f&sensor=true&key=%@","https://maps.googleapis.com/maps/api/directions/json", locationManager.location!.coordinate.latitude,locationManager.location!.coordinate.longitude,self.fetchedData.location.coordinate.latitude,self.fetchedData.location.coordinate.longitude,"AIzaSyAYiNNVx2EBB8EUJBMWO1g4LD-ndzZDExg")).responseJSON { response in
@@ -80,7 +106,7 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate,GMS
                     let path1 = GMSPath.init(fromEncodedPath: points!)
                     let polyline = GMSPolyline.init(path: path1)
                     polyline.strokeWidth = 5
-                    polyline.strokeColor = UIColor.red
+                    polyline.strokeColor = UIColor.green
                     polyline.map = self.myMap
                     
                 }
@@ -157,6 +183,7 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate,GMS
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         print("You long pressed coordinate",coordinate)
         var nameOfCoordinate = ""
+        var nameOfSelectedLocation = ""
         Alamofire.request(String(format: "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(coordinate.latitude),\(coordinate.longitude)&key=AIzaSyAYiNNVx2EBB8EUJBMWO1g4LD-ndzZDExg")).responseJSON { response in
             //            print("Request: \(String(describing: response.request))")   // original url request
             //            print("Response: \(String(describing: response.response))") // http url response
@@ -168,6 +195,7 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate,GMS
                 let ab = a["results"] as! Array<Dictionary<String,Any>>
                 //                let b = a["results"]![0]
                 //                print(b["address_components"]!)
+                nameOfSelectedLocation = ab[0]["formatted_address"] as! String
                 let tmpArr = ab[0]["address_components"] as! Array<Dictionary<String,Any>>
                 //                print(ab[0]["address_components"]!)
                 nameOfCoordinate = tmpArr[0]["long_name"]! as! String
@@ -197,12 +225,52 @@ class ShowDetailedViewController: UIViewController,CLLocationManagerDelegate,GMS
             print("Your location name is ",nameOfCoordinate)
         }
         let shareAction = UIAlertAction(title: "Share Location", style: .default) { (shar) in
+            let activityViewController = UIActivityViewController(activityItems: [nameOfSelectedLocation], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
             
+            // exclude some activity types from the list (optional)
+            activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+            
+            // present the view controller
+            self.present(activityViewController, animated: true, completion: nil)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         controller.addAction(okAction)
         controller.addAction(shareAction)
         controller.addAction(cancelAction)
         self.present(controller, animated: true, completion: nil)
+    }
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("adViewDidReceiveAd")
+        self.myConstraint.constant = 44
+        self.myBanner.layoutIfNeeded()
+    }
+    
+    /// Tells the delegate an ad request failed.
+    func adView(_ bannerView: GADBannerView,
+                didFailToReceiveAdWithError error: GADRequestError) {
+        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+    
+    /// Tells the delegate that a full screen view will be presented in response
+    /// to the user clicking on an ad.
+    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("adViewWillPresentScreen")
+    }
+    
+    /// Tells the delegate that the full screen view will be dismissed.
+    func adViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewWillDismissScreen")
+    }
+    
+    /// Tells the delegate that the full screen view has been dismissed.
+    func adViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewDidDismissScreen")
+    }
+    
+    /// Tells the delegate that a user click will open another app (such as
+    /// the App Store), backgrounding the current app.
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        print("adViewWillLeaveApplication")
     }
 }

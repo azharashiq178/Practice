@@ -55,7 +55,7 @@ class AnnotationView: ARAnnotationView {
     override func layoutSubviews() {
         super.layoutSubviews()
         titleLabel?.frame = CGRect(x: 10, y: 0, width: self.frame.size.width, height: 30)
-        distanceLabel?.frame = CGRect(x: 40, y: 30, width: self.frame.size.width, height: 20)
+        distanceLabel?.frame = CGRect(x: 10, y: 30, width: self.frame.size.width, height: 20)
     }
     
     //2

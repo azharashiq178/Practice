@@ -11,6 +11,7 @@ import GooglePlaces
 import GooglePlacePicker
 import Alamofire
 import ARKit
+import GoogleMobileAds
 
 
 
@@ -32,11 +33,14 @@ extension ShowPlacesVC: AnnotationViewDelegate {
 }
 
 
-class ShowPlacesVC: UIViewController,CLLocationManagerDelegate,UITableViewDelegate,UITableViewDataSource {
+class ShowPlacesVC: UIViewController,CLLocationManagerDelegate,UITableViewDelegate,UITableViewDataSource,GADBannerViewDelegate,GADInterstitialDelegate {
+    @IBOutlet weak var myBanner: GADBannerView!
     @IBOutlet weak var myToolbar: UIToolbar!
     @IBOutlet weak var fetchedTableView: UITableView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var mySegmentedControl: UISegmentedControl!
+    @IBOutlet weak var myConstraint: NSLayoutConstraint!
+    var interstitial: GADInterstitial!
     var fetchedNames : Array<FetchedData> = []
     var typeToSearch : String = ""
     let locationManager = CLLocationManager()
@@ -44,14 +48,106 @@ class ShowPlacesVC: UIViewController,CLLocationManagerDelegate,UITableViewDelega
     fileprivate var arViewController: ARViewController!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if interstitial.isReady {
+            interstitial.present(fromRootViewController: self)
+        }
+        
         self.mySegmentedControl.selectedSegmentIndex = 0
+        if CLLocationManager.locationServicesEnabled(){
+            switch(CLLocationManager.authorizationStatus()) {
+            case .notDetermined, .restricted, .denied:
+                print("No access")
+            case .authorizedAlways, .authorizedWhenInUse:
+                print("Access")
+                Alamofire.request("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(locationManager.location!.coordinate.latitude),\(locationManager.location!.coordinate.longitude)&radius=5000&type=\(self.typeToSearch)&keyword=&key=AIzaSyAYiNNVx2EBB8EUJBMWO1g4LD-ndzZDExg").responseJSON { response in
+                    //            print("Request: \(String(describing: response.request))")   // original url request
+                    //            print("Response: \(String(describing: response.response))") // http url response
+                    //            print("Result: \(response.result)")                         // response serialization result
+                    
+                    if let json = response.result.value {
+                        
+                        let a = json as! [String:Any]
+                        
+                        print("My a is :",a["results"]!)
+                        let b = a["results"] as! Array<Dictionary<String,Any>>
+                        if(b.count != 0){
+                            
+                            print("My Data is ",b[0]["name"]!)
+                            
+                            for tmp in b {
+                                print("Searched name is ",tmp["geometry"]!)
+                                let myLoc = tmp["geometry"] as! Dictionary<String,Dictionary<String,Any>>
+                                print("My Location is ",myLoc["location"]!["lat"]!)
+                                let myLat = myLoc["location"]!["lat"]! as! Double
+                                let myLong = myLoc["location"]!["lng"]! as! Double
+                                print("My Latitude is ",myLat,myLong)
+                                let myCoordinate = CLLocation(latitude: myLat, longitude: myLong)
+                                let tmpData = FetchedData()
+                                
+                                tmpData.nameOfFetchedData = tmp["name"]! as! String
+                                
+                                tmpData.locationOfFetchedData = tmp["vicinity"]! as! String
+                                tmpData.location = myCoordinate
+                                if(tmp["rating"] != nil){
+                                    tmpData.ratings = tmp["rating"]! as! Float
+                                }
+                                
+                                self.fetchedNames.append(tmpData)
+                            }
+                            self.fetchedTableView.reloadData()
+                            self.fetchedTableView.isHidden = false
+                            self.activityIndicator.isHidden = true
+                            self.activityIndicator.stopAnimating()
+                        }
+                        else{
+                            self.activityIndicator.isHidden = true
+                            self.activityIndicator.stopAnimating()
+                            let controller = UIAlertController(title: "No Data Found", message: "No Data Found", preferredStyle: .alert)
+                            let cancelAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+                            controller.addAction(cancelAction)
+                            self.present(controller, animated: true, completion: nil)
+                            print("No Data found")
+                        }
+                        
+                        //                print("My Value: ")
+                        //                let tmp = b[0]
+                        //
+                        //                print(tmp["geometry"]!)
+                        //                print(b[0]["geometry"]!)
+                        //                print("value of a is",b0["geometry"]!)
+                        
+                        //                print("ab")
+                        
+                    }
+                    
+                    //            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
+                    //
+                    //                print("Data: \(utf8Text)") // original server data as UTF8 string
+                    //
+                    //            }
+                }
+            
+                
+            }
+            
+            
+        }
+        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        interstitial = createAndLoadInterstitial()
         self.mySegmentedControl.addTarget(self, action: #selector(segmentControlAction(sender:)), for: .valueChanged)
         let myButton = UIBarButtonItem(image: UIImage(named: "menu"), style: .plain, target: self, action: #selector(showLiveView))
         myButton.tintColor = UIColor.black
         self.title = "AroundMe"
+        self.myBanner.adUnitID = "ca-app-pub-6412217023250030/8468198649"
+        self.myBanner.rootViewController = self
+        let request = GADRequest()
+        self.myBanner.delegate = self
+//        request.testDevices = [kGADSimulatorID ];
+        
+        self.myBanner.load(request)
         
 //        self.navigationItem.rightBarButtonItem = myButton
         
@@ -59,87 +155,22 @@ class ShowPlacesVC: UIViewController,CLLocationManagerDelegate,UITableViewDelega
         self.fetchedTableView.delegate = self
         self.fetchedTableView.dataSource = self
         
-        
-        locationManager.delegate = self as? CLLocationManagerDelegate
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
         locationManager.startUpdatingLocation()
         print("My Location")
-        print(locationManager.location!.coordinate.latitude,locationManager.location!.coordinate.longitude)
+//        print(locationManager.location!.coordinate.latitude,locationManager.location!.coordinate.longitude)
         self.fetchedTableView.isHidden = true
         self.activityIndicator.startAnimating()
-        let ab = locationManager.location?.distance(from: locationManager.location!)
-        Alamofire.request("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(locationManager.location!.coordinate.latitude),\(locationManager.location!.coordinate.longitude)&radius=5000&type=\(self.typeToSearch)&keyword=&key=AIzaSyAYiNNVx2EBB8EUJBMWO1g4LD-ndzZDExg").responseJSON { response in
-//            print("Request: \(String(describing: response.request))")   // original url request
-//            print("Response: \(String(describing: response.response))") // http url response
-//            print("Result: \(response.result)")                         // response serialization result
-            
-            if let json = response.result.value {
-                
-                let a = json as! [String:Any]
-                
-                print("My a is :",a["results"]!)
-                let b = a["results"] as! Array<Dictionary<String,Any>>
-                if(b.count != 0){
-                    
-                    print("My Data is ",b[0]["name"]!)
-                    
-                    for tmp in b {
-                        print("Searched name is ",tmp["geometry"]!)
-                        let myLoc = tmp["geometry"] as! Dictionary<String,Dictionary<String,Any>>
-                        print("My Location is ",myLoc["location"]!["lat"]!)
-                        let myLat = myLoc["location"]!["lat"]! as! Double
-                        let myLong = myLoc["location"]!["lng"]! as! Double
-                        print("My Latitude is ",myLat,myLong)
-                        let myCoordinate = CLLocation(latitude: myLat, longitude: myLong)
-                        let tmpData = FetchedData()
-                        
-                        tmpData.nameOfFetchedData = tmp["name"]! as! String
-                        
-                        tmpData.locationOfFetchedData = tmp["vicinity"]! as! String
-                        tmpData.location = myCoordinate
-                        if(tmp["rating"] != nil){
-                            tmpData.ratings = tmp["rating"]! as! Float
-                        }
-                        
-                        self.fetchedNames.append(tmpData)
-                    }
-                    self.fetchedTableView.reloadData()
-                    self.fetchedTableView.isHidden = false
-                    self.activityIndicator.isHidden = true
-                    self.activityIndicator.stopAnimating()
-                }
-                else{
-                    self.activityIndicator.isHidden = true
-                    self.activityIndicator.stopAnimating()
-                    let controller = UIAlertController(title: "No Data Found", message: "No Data Found", preferredStyle: .alert)
-                    let cancelAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
-                    controller.addAction(cancelAction)
-                    self.present(controller, animated: true, completion: nil)
-                    print("No Data found")
-                }
-                
-//                print("My Value: ")
-//                let tmp = b[0]
-//
-//                print(tmp["geometry"]!)
-//                print(b[0]["geometry"]!)
-//                print("value of a is",b0["geometry"]!)
-
-//                print("ab")
-                
-            }
-            
-//            if let data = response.data, let utf8Text = String(data: data, encoding: .utf8) {
-//
-//                print("Data: \(utf8Text)") // original server data as UTF8 string
-//
-//            }
-        }
+        _ = locationManager.location?.distance(from: locationManager.location!)
+        
 
         // Do any additional setup after loading the view.
         
     }
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -157,6 +188,7 @@ class ShowPlacesVC: UIViewController,CLLocationManagerDelegate,UITableViewDelega
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetails"{
             let controller = segue.destination as! ShowDetailedViewController
+            controller.typeOfSearch = self.typeToSearch
             controller.fetchedData = self.dataToPass
         }
     }
@@ -220,6 +252,7 @@ class ShowPlacesVC: UIViewController,CLLocationManagerDelegate,UITableViewDelega
     func showMapAction(){
         let vc = self.storyboard?.instantiateViewController(withIdentifier: "mapView") as! ShowMapsViewController
         vc.listToShow = self.fetchedNames
+        vc.typeOfSearch = self.typeToSearch
         self.present(vc, animated: true, completion: nil)
     }
     @objc func segmentControlAction(sender:UISegmentedControl){
@@ -230,5 +263,48 @@ class ShowPlacesVC: UIViewController,CLLocationManagerDelegate,UITableViewDelega
         if(sender.selectedSegmentIndex == 2){
             self.showLiveView()
         }
+    }
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("adViewDidReceiveAd")
+        self.myConstraint.constant = 44
+        self.myBanner.layoutIfNeeded()
+    }
+    
+    /// Tells the delegate an ad request failed.
+    func adView(_ bannerView: GADBannerView,
+                didFailToReceiveAdWithError error: GADRequestError) {
+        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+    
+    /// Tells the delegate that a full screen view will be presented in response
+    /// to the user clicking on an ad.
+    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("adViewWillPresentScreen")
+    }
+    
+    /// Tells the delegate that the full screen view will be dismissed.
+    func adViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewWillDismissScreen")
+    }
+    
+    /// Tells the delegate that the full screen view has been dismissed.
+    func adViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewDidDismissScreen")
+    }
+    
+    /// Tells the delegate that a user click will open another app (such as
+    /// the App Store), backgrounding the current app.
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        print("adViewWillLeaveApplication")
+    }
+    func createAndLoadInterstitial() -> GADInterstitial {
+        var interstitial = GADInterstitial(adUnitID: "ca-app-pub-6412217023250030/7837465646")
+        interstitial.delegate = self
+        interstitial.load(GADRequest())
+        return interstitial
+    }
+    
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitial = createAndLoadInterstitial()
     }
 }

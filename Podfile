@@ -9,6 +9,7 @@ target 'Practice' do
   pod 'GooglePlacePicker'
   pod 'GoogleMaps'
   pod 'Alamofire', '~> 4.5'
+  pod 'Google-Mobile-Ads-SDK'
 pod 'HCSStarRatingView', '~> 1.5'
   # Pods for Practice
 

@@ -9,15 +9,38 @@
 import UIKit
 import Alamofire
 import CoreData
+import GoogleMobileAds
 
-class ShowTrafficViewController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelegate {
+class ShowTrafficViewController: UIViewController,GMSMapViewDelegate,CLLocationManagerDelegate,GADBannerViewDelegate,GADInterstitialDelegate {
+    @IBOutlet weak var myHeight: NSLayoutConstraint!
     @IBOutlet weak var myMap: GMSMapView!
+    var interstitial: GADInterstitial!
+    @IBOutlet weak var myBanner: GADBannerView!
     let locationManager = CLLocationManager()
 //    var location: [NSManagedObject] = []
     
     @IBOutlet weak var myImage: UIImageView!
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.navigationBar.topItem?.title = "Traffic"
+//        if interstitial.isReady {
+//            interstitial.present(fromRootViewController: self)
+//        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.myBanner.adUnitID = "ca-app-pub-6412217023250030/8468198649"
+        self.myBanner.rootViewController = self
+        let request = GADRequest()
+        self.myBanner.delegate = self
+//        request.testDevices = [kGADSimulatorID ];
+        
+        self.myBanner.load(request)
+        interstitial = createAndLoadInterstitial()
+        
+        
+        self.navigationController?.navigationBar.topItem?.title = "Traffic"
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestAlwaysAuthorization()
@@ -33,6 +56,7 @@ class ShowTrafficViewController: UIViewController,GMSMapViewDelegate,CLLocationM
         //        let targetLocation = self.fetchedData.location
         let camera: GMSCameraPosition = GMSCameraPosition.camera(withLatitude: locationManager.location!.coordinate.latitude, longitude: locationManager.location!.coordinate.longitude, zoom: 12.0)
         myMap.camera = camera
+        
         
         // Do any additional setup after loading the view.
     }
@@ -86,6 +110,7 @@ class ShowTrafficViewController: UIViewController,GMSMapViewDelegate,CLLocationM
     func mapView(_ mapView: GMSMapView, didLongPressAt coordinate: CLLocationCoordinate2D) {
         print("You long pressed coordinate",coordinate)
         var nameOfCoordinate = ""
+        var nameOfSelectedLocation = ""
         Alamofire.request(String(format: "https://maps.googleapis.com/maps/api/geocode/json?latlng=\(coordinate.latitude),\(coordinate.longitude)&key=AIzaSyAYiNNVx2EBB8EUJBMWO1g4LD-ndzZDExg")).responseJSON { response in
 //            print("Request: \(String(describing: response.request))")   // original url request
 //            print("Response: \(String(describing: response.response))") // http url response
@@ -95,9 +120,13 @@ class ShowTrafficViewController: UIViewController,GMSMapViewDelegate,CLLocationM
 //                print("JSON: \(json)") // serialized json response
                 let a = json as! Dictionary<String,Any>
                 let ab = a["results"] as! Array<Dictionary<String,Any>>
+//                print(ab[0])
+//                print(ab[0]["formatted_address"] as! String)
 //                let b = a["results"]![0]
 //                print(b["address_components"]!)
+                nameOfSelectedLocation = ab[0]["formatted_address"] as! String
                 let tmpArr = ab[0]["address_components"] as! Array<Dictionary<String,Any>>
+//                print(tmpArr[0])
 //                print(ab[0]["address_components"]!)
                 nameOfCoordinate = tmpArr[0]["long_name"]! as! String
                 
@@ -105,9 +134,9 @@ class ShowTrafficViewController: UIViewController,GMSMapViewDelegate,CLLocationM
                 
             }
         }
-        let controller = UIAlertController(title: "Add to Favourite?", message: "Do you want to add this Location to Favourite", preferredStyle: .alert)
+        let controller = UIAlertController(title: "Select an Action", message: "", preferredStyle: .alert)
         
-        let okAction = UIAlertAction(title: "Ok", style: .default) { (ab) in
+        let okAction = UIAlertAction(title: "Save Location to Favorites?", style: .default) { (ab) in
             let appDelegate = UIApplication.shared.delegate as? AppDelegate
             let managedContext = appDelegate!.persistentContainer.viewContext
             let entity = NSEntityDescription.entity(forEntityName: "Favourite", in: managedContext)!
@@ -125,9 +154,67 @@ class ShowTrafficViewController: UIViewController,GMSMapViewDelegate,CLLocationM
             
             print("Your location name is ",nameOfCoordinate)
         }
+        let shareAction = UIAlertAction(title: "Share Location", style: .default) { (shar) in
+            
+            // set up activity view controller
+//            let imageToShare = [ image! ]
+            let activityViewController = UIActivityViewController(activityItems: [nameOfSelectedLocation], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+            
+            // exclude some activity types from the list (optional)
+            activityViewController.excludedActivityTypes = [ UIActivityType.airDrop, UIActivityType.postToFacebook ]
+            
+            // present the view controller
+            self.present(activityViewController, animated: true, completion: nil)
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         controller.addAction(okAction)
+        controller.addAction(shareAction)
         controller.addAction(cancelAction)
         self.present(controller, animated: true, completion: nil)
+    }
+    /// Tells the delegate an ad request loaded an ad.
+    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("adViewDidReceiveAd")
+        self.myHeight.constant = 44
+        self.myBanner.layoutIfNeeded()
+    }
+    
+    /// Tells the delegate an ad request failed.
+    func adView(_ bannerView: GADBannerView,
+                didFailToReceiveAdWithError error: GADRequestError) {
+        print("adView:didFailToReceiveAdWithError: \(error.localizedDescription)")
+    }
+    
+    /// Tells the delegate that a full screen view will be presented in response
+    /// to the user clicking on an ad.
+    func adViewWillPresentScreen(_ bannerView: GADBannerView) {
+        print("adViewWillPresentScreen")
+    }
+    
+    /// Tells the delegate that the full screen view will be dismissed.
+    func adViewWillDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewWillDismissScreen")
+    }
+    
+    /// Tells the delegate that the full screen view has been dismissed.
+    func adViewDidDismissScreen(_ bannerView: GADBannerView) {
+        print("adViewDidDismissScreen")
+    }
+    
+    /// Tells the delegate that a user click will open another app (such as
+    /// the App Store), backgrounding the current app.
+    func adViewWillLeaveApplication(_ bannerView: GADBannerView) {
+        print("adViewWillLeaveApplication")
+    }
+    func createAndLoadInterstitial() -> GADInterstitial {
+        var interstitial = GADInterstitial(adUnitID: "ca-app-pub-6412217023250030/7837465646")
+        interstitial.delegate = self
+        interstitial.load(GADRequest())
+        return interstitial
+    }
+    
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitial = createAndLoadInterstitial()
     }
 }

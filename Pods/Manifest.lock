@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (4.5.1)
   - FAPanels (0.2.5)
-  - Google-Mobile-Ads-SDK (7.23.0)
+  - Google-Mobile-Ads-SDK (7.24.1)
   - GoogleMaps (2.4.0):
     - GoogleMaps/Maps (= 2.4.0)
   - GoogleMaps/Base (2.4.0)
@@ -17,7 +17,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire (~> 4.5)
   - FAPanels
-  - Google-Mobile-Ads-SDK
+  - Google-Mobile-Ads-SDK (~> 7.24)
   - GoogleMaps
   - GooglePlacePicker
   - GooglePlaces
@@ -26,12 +26,12 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   FAPanels: 8bced463df88898aaa858be9681e2398e57efbd4
-  Google-Mobile-Ads-SDK: a43dc8efdb566c74d00ac6934c781de969348d80
+  Google-Mobile-Ads-SDK: ed8004a7265b424568dc84f3d2bbe3ea3fff958f
   GoogleMaps: 8436ab5d1c25e36915b2f7416d0c8e3fa2e76c61
   GooglePlacePicker: 755f10343d71280c7b016823e73fbae9625dfa8a
   GooglePlaces: aafe5990fa7951e98e078761bbdaaf236d7e0c65
   HCSStarRatingView: 1d18f79654735514cd6f00e6d90e38cb6320dc31
 
-PODFILE CHECKSUM: 5cee88b56a00a620b8d9dfd88b48ee73be392192
+PODFILE CHECKSUM: 7497112eb2c5b327274018d5df4a928bcf4f5847
 
 COCOAPODS: 1.3.1
